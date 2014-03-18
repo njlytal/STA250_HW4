@@ -59,11 +59,19 @@ router6 = offline[which(offline$mac==routers[6]),]
 router.all = rbind(router1,router2,router3,router4,router5,router6)
 
 
-# Interactive plot with the assignment data
+# Interactive plots with the assignment data
 
+# Example plot
+plot1 = rPlot(y ~ x, data = router1, color="signal", type = "point",
+              main = "Signal Data")
+
+# Alternatively, enter:
+# router: router (router1, router2, etc.)
+# router.all: As defined above. Only used as universal source for variable names
+# This will produce six interactive plots, one for each router.
 all.plots = function(router, router.all)
 {
-    plot1 = rPlot(router$y ~ router$x, data = router, color="signal", type = "point",
+    plot1 = rPlot(y ~ x, data = router, color="signal", type = "point",
                   main = "Signal Data")
     
     # Adds simple menus to choose which variables to use for x, y, and color
@@ -77,18 +85,7 @@ all.plots = function(router, router.all)
     
 }
 
-plot1 = rPlot(y ~ x, data = router1, color="signal", type = "point",
-                main = "Signal Data")
-
-# Adds simple menus to choose which variables to use for x, y, and color
-# (signal, orientation, x) and (signal, orientation, y) can tell us a bit
-# more about the data in question.
-plot1$addControls("x", value = "x", values = names(router.all))
-plot1$addControls("y", value = "y", values = names(router.all))
-plot1$addControls("color", value = "signal", values = names(router.all))
-
-plot1
-
+# Additional notes
 plot1$show('inline') # Displays javascript
 print(plot1) # Displays graph
 plot1$print("chart1")
