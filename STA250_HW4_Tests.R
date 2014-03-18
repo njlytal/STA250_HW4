@@ -1,5 +1,7 @@
 # STA 250 HW 4 Tests
 
+# This contains various samples and examples in attempts to make
+# different methods work.
 
 #  ***** Testing out rCharts *****
 rChart <- rCharts$new()
@@ -19,35 +21,12 @@ rPlot(Freq ~ Hair | Eye, color = 'Eye', data = hair_eye, type = 'bar')
 # Example with a portion of the assignment data
 rPlot(y ~ x|mac, data = off.samp, color="signal", type = "point")
 # Need to account for multiple points at same location - signal will vary
-# depending on 
+# depending on orientation and other factors
 
 rPlot(signal~orientation, data = off.samp, color = "mac", type = "point")
 
 
-# ***** TESTING SVG *****
-dat <- data.frame(xvar = 1:5, yvar = rnorm(5) )
-ggplot(dat, aes(x=xvar, y=yvar)) + geom_point(size = 10)
-grid.ls()
-
-g = grid.get("geom_point.points.251")
-
-unclass(g)
-
-grob1=sapply(g, "[", 1)
-
-grob1$name = "g1"
-
-grill.gTree.264
-grid.add("panel.3-4-3-4",grob1)
-
-map = xmlParse('map.svg')
-map
-getPlotPoints(map)
-
-plot(offline$orientation)
-
-
-# SAMPLE CODE FOR RgoogleMaps
+# ******* SAMPLE CODE FOR RgoogleMaps ********
 lat = c(37.6,38.6,38.1);
 lon = c(-121.5,-121,-122);
 center = c(mean(lat), mean(lon));
@@ -59,6 +38,28 @@ MyMap <- GetMap(center=center, zoom=zoom,
 sample.map = GetMap(center =c(lat=38.6,long=-121.5), zoom = 12, destfile = "maptile.png");
 
 usa.map = GetMap(center = "United States", zoom = 4, destfile = "usamap.png")
+
+
+
+# ******* SVG Attempts *********
+
+# Background image
+
+
+s = svg("offline.svg")
+# Define and plot background image
+bg <- readPNG("building.png")
+plot(1:2, type='n', main="Router Signals",
+     xlab="x", ylab="y", xlim=c(0.5,33), ylim=c(-3,14))
+lim <- par()
+rasterImage(bg, lim$usr[1], lim$usr[3], lim$usr[2], lim$usr[4])
+grid()
+
+svgPlot(points(router1$x, router1$y, xlim=c(0.5,33), ylim=c(-3,14), xlab = "X",
+               ylab = "Y", col = "blue"))
+addToolTips(s)
+
+dev.off()
 
 
 # ********* EXAMPLE FROM omegahat.org **********
@@ -123,3 +124,4 @@ newXMLNode("symbol", attrs = c(id = "sliderSymbol",  overflow = "visible"),
            parent = defs)
 
 saveXML(doc, docName(doc))
+
